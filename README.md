@@ -61,7 +61,7 @@ The `biz.dfch.CS.Examples.Odata.Client` is a service reference to the actual ODa
 
 ## Issues
 
-* There is currently an issue that I cannot automatically detect the port of the server instance; but instead have to hard code it. A workaround might be to parse the service refrence file. But I have not implemented that.
+* There is currently an issue that I cannot automatically detect the port of the server instance (see #1); but instead have to hard code it. A workaround might be to parse the service refrence file. But I have not implemented that.
 
 * Using HTTP mehtods such as `PATCH` and `BATCH` is only implicitly possible by setting the respective parameters on the container. The same holds true for media formatting (`JSON` vs `XML`).
 
