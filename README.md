@@ -6,42 +6,46 @@ Unit Testing OData Controllers with Service References and Katana TestServer
 
 This solution shows how to test OData Controllers by utilising the [Katana TestServer](https://katanaproject.codeplex.com/). This means the unit tests (or maybe integration tests) use the integrated Katana web server to load the `WebApiConfig` and perform acutal HTTP requests and responses. This example is further extended by using an OData Service Reference to abstract the actual HTTP request/response logic. Let's show you an example:
 
-	[TestInitialize]
-	public void TestInitialize()
+``` csharp
+[TestInitialize]
+public void TestInitialize()
+{
+	server = TestServer.Create(app =>
 	{
-		server = TestServer.Create(app =>
-		{
-			HttpConfiguration config = new HttpConfiguration();
-			biz.dfch.CS.Examples.Odata.WebApiConfig.Register(config);
-			app.UseWebApi(config);
-		});
-	}
-	
-	[TestCleanup]
-	public void TestCleanup()
+		HttpConfiguration config = new HttpConfiguration();
+		biz.dfch.CS.Examples.Odata.WebApiConfig.Register(config);
+		app.UseWebApi(config);
+	});
+}
+
+[TestCleanup]
+public void TestCleanup()
+{
+	if (null != server)
 	{
-		if (null != server)
-		{
-			server.Dispose();
-		}
+		server.Dispose();
 	}
+}
+```
 
 The above code is used to actually instantiate an HTTP server context. After that, all you have to do is to do something with the controller, such as retrieving a `Thing`:
 
-	[TestMethod]
-	public void GetThingByNameReturnsThing()
-	{
-		// Arrange
-		var container = new biz.dfch.CS.Examples.Odata.Client.Utilities.Container(uri);
-		var name = "theThing";
+``` csharp
+[TestMethod]
+public void GetThingByNameReturnsThing()
+{
+	// Arrange
+	var container = new biz.dfch.CS.Examples.Odata.Client.Utilities.Container(uri);
+	var name = "theThing";
 
-		// Act
-		var entity = container.Things.Where(e => e.Name.Equals(name)).First();
+	// Act
+	var entity = container.Things.Where(e => e.Name.Equals(name)).First();
 
-		// Assert
-		Assert.IsNotNull(entity);
-		Assert.AreEqual(name, entity.Name);
-	}
+	// Assert
+	Assert.IsNotNull(entity);
+	Assert.AreEqual(name, entity.Name);
+}
+```
 
 The `biz.dfch.CS.Examples.Odata.Client` is a service reference to the actual OData Controllers' service route (encapsulated in `Utilities.Container`). There you get all the benefits of an ORM mapper that abstracts away the deserialisation of the OData models. Of course you can then go on and `Mock` the underlying `DBContext` in case you do not really want to write to the database.
 
