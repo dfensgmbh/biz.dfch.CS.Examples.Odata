@@ -1,0 +1,11 @@
+namespace biz.dfch.CS.Examples.Odata.Tests.Areas.HelpPage.ModelDescriptions
+{
+    public class EnumValueDescription
+    {
+        public string Documentation { get; set; }
+
+        public string Name { get; set; }
+
+        public string Value { get; set; }
+    }
+}
