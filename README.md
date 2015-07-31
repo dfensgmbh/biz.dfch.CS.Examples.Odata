@@ -1,4 +1,5 @@
 # biz.dfch.CS.Examples.Odata
+[![License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/dfensgmbh/biz.dfch.CS.Examples.Odata/blob/master/LICENSE)
 
 Unit Testing OData Controllers with Service References and Katana TestServer
 
